@@ -1,10 +1,10 @@
 {
   "background_color": "#FFF",
   "display": "standalone",
-  "name": "HelloCordova",
-  "short_name": "HelloCordova",
-  "version": "io.cordova.hellocordova",
-  "description": "A sample Apache Cordova application that responds to the deviceready event.",
+  "name": "recogApp",
+  "short_name": "recogApp",
+  "version": "id.ngulik.recogApp",
+  "description": "A simple app for send image to tensorflow server.",
   "author": "Apache Cordova Team",
   "icons": [],
   "start_url": "index.html"

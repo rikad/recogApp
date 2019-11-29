@@ -15,6 +15,9 @@
     },
     "cordova-plugin-inappbrowser": {
       "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-native-spinner": {
+      "PACKAGE_NAME": "id.ngulik.recogApp"
     }
   },
   "dependent_plugins": {}

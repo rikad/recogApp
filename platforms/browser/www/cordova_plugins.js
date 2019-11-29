@@ -44,6 +44,14 @@ module.exports = [
         "id": "cordova-plugin-inappbrowser.InAppBrowserProxy",
         "pluginId": "cordova-plugin-inappbrowser",
         "runs": true
+    },
+    {
+        "file": "plugins/cordova-plugin-native-spinner/www/SpinnerDialog.js",
+        "id": "cordova-plugin-native-spinner.SpinnerDialog",
+        "pluginId": "cordova-plugin-native-spinner",
+        "clobbers": [
+            "SpinnerDialog"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -51,7 +59,8 @@ module.exports.metadata =
 {
     "cordova-plugin-camera": "4.1.0",
     "cordova-plugin-whitelist": "1.3.4",
-    "cordova-plugin-inappbrowser": "3.1.0"
+    "cordova-plugin-inappbrowser": "3.1.0",
+    "cordova-plugin-native-spinner": "1.1.3"
 }
 // BOTTOM OF METADATA
 });

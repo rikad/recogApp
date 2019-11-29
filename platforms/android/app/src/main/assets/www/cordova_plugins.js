@@ -40,11 +40,20 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
         "cordova.InAppBrowser.open",
         "window.open"
       ]
+    },
+    {
+      "id": "cordova-plugin-native-spinner.SpinnerDialog",
+      "file": "plugins/cordova-plugin-native-spinner/www/SpinnerDialog.js",
+      "pluginId": "cordova-plugin-native-spinner",
+      "clobbers": [
+        "SpinnerDialog"
+      ]
     }
   ];
   module.exports.metadata = {
     "cordova-plugin-camera": "4.1.0",
     "cordova-plugin-whitelist": "1.3.4",
-    "cordova-plugin-inappbrowser": "3.1.0"
+    "cordova-plugin-inappbrowser": "3.1.0",
+    "cordova-plugin-native-spinner": "1.1.3"
   };
 });

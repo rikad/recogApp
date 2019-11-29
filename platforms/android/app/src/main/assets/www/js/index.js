@@ -18,7 +18,7 @@
  */
 
 var storage = window.localStorage;
-var defaultLink = 'situ.tf.itb.ac.id';
+var defaultLink = 'http://situ.tf.itb.ac.id';
 
 var app = {
     // Application Constructor
@@ -37,7 +37,11 @@ var app = {
         }
         
         document.getElementById("btnOpen").addEventListener("click", function() {
-            openCamera();
+            openCamera('camera',false);
+        });
+
+        document.getElementById("btnGallery").addEventListener("click", function() {
+            openCamera('gallery',true);
         });
 
         document.getElementById("btnSave").addEventListener("click", function() {
@@ -57,43 +61,33 @@ var app = {
 
         //init link
         document.getElementById("txtLink").value = storage.getItem('link');
-
-        openWeb('');
     },
 
 };
 
 app.initialize();
 
-function openCamera() {
+function openCamera(mode,edit) {
     
-    var srcType = Camera.PictureSourceType.CAMERA;
-    var options = setOptions(srcType);
+    var options = {
 
-    function displayImage(imgUri) {
-        var elem = document.getElementById('result');
-        elem.innerHTML = imgUri;
-    }
-
-    function setOptions(srcType) {
-        var options = {
-            // Some common settings are 20, 50, and 100
-            quality: 50,
-            destinationType: Camera.DestinationType.DATA_URL, //base64
-            // destinationType: Camera.DestinationType.FILE_URI, // image path
-            // In this app, dynamically set the picture source, Camera or photo gallery
-            sourceType: srcType,
-            encodingType: Camera.EncodingType.JPEG,
-            mediaType: Camera.MediaType.PICTURE,
-            // allowEdit: true,
-            correctOrientation: true  //Corrects Android orientation quirks
-        }
-        return options;
+        // Some common settings are 20, 50, and 100
+        quality: 50,
+        destinationType: Camera.DestinationType.DATA_URL, //base64
+        // destinationType: Camera.DestinationType.FILE_URI, // image path
+        // In this app, dynamically set the picture source, Camera or photo gallery
+        sourceType: mode == 'camera' ? Camera.PictureSourceType.CAMERA : Camera.PictureSourceType.PHOTOLIBRARY,
+        encodingType: Camera.EncodingType.JPEG,
+        mediaType: Camera.MediaType.PICTURE,
+        allowEdit: edit,
+        correctOrientation: true  //Corrects Android orientation quirks
     }
         
     navigator.camera.getPicture(function cameraSuccess(imageUri) {
 
-        displayImage(imageUri);
+        // displayImage(imageUri);
+        SpinnerDialog.show();
+        uploadImage(imageUri);
 
     }, function cameraError(error) {
         console.debug("Unable to obtain picture: " + error, "app");
@@ -102,6 +96,31 @@ function openCamera() {
 }
 
 function openWeb(id) {
-    var link = storage.getItem('link')+'/'+id;
+    var link = storage.getItem('link')+'/bangunan?id='+id;
+    alert(link);
     cordova.InAppBrowser.open(link, '_blank', 'location=yes');
+}
+
+async function uploadImage(base64) {
+    var link = storage.getItem('link')+'/recog.php';
+    var formData = new FormData();
+    
+    formData.append('img', base64);
+    
+    try {
+      const response = await fetch(link, {
+        method: 'POST',
+        body: formData
+      });
+      var result = await response.json();
+
+      SpinnerDialog.hide();
+      alert('Tingkat Kecocokan = '+result.id+' : '+result.score);
+
+      if(result.score > 0.5) {
+        openWeb(result.id);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
 }
